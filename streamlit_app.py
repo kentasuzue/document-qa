@@ -1,3 +1,4 @@
+import streamlit as st
 st.write("Deeplake version:", deeplake.__version__)
 from deeplake import VectorStore
 import docx
@@ -6,7 +7,6 @@ import openai
 import os
 from PyPDF2 import PdfReader
 from sklearn.metrics.pairwise import cosine_similarity
-import streamlit as st
 import tempfile
 
 # Load API keys
