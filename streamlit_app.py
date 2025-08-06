@@ -1,4 +1,5 @@
 from deeplake import VectorStore
+st.write("Deeplake version:", deeplake.__version__)
 import docx
 import numpy as np
 import openai
