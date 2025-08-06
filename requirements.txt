@@ -1,2 +1,5 @@
 streamlit
 openai
+deeplake
+PyPDF2
+python-docx
