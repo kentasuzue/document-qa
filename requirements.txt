@@ -1,4 +1,5 @@
 streamlit
 openai
+langchain-deeplake
 PyPDF2
 python-docx
