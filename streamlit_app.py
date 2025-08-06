@@ -1,6 +1,6 @@
 import streamlit as st
-from deeplake import VectorStore
-st.write("Deeplake version:", deeplake.__version__)
+from langchain_deeplake.vectorstores import DeeplakeVectorStore
+from langchain.embeddings.openai import OpenAIEmbeddings
 import docx
 import numpy as np
 import openai
@@ -29,12 +29,7 @@ def parse_file(file):
 # Get OpenAI embedding
 @st.cache_data(show_spinner=False)
 def get_embedding(text):
-    response = openai.embeddings.create(
-        model="text-embedding-3-large",
-        input=text.strip().replace("\n", " ")
-    )
-    return response.data[0].embedding
-
+    return OpenAIEmbeddings(model="text-embedding-3-large")
 
 # Generate GPT summary
 @st.cache_data(show_spinner=False)
@@ -103,33 +98,33 @@ resume_files = st.file_uploader("Upload Candidate Resumes", type=["txt", "pdf", 
 if job_text and resume_files:
     with st.spinner("🔄 Processing resumes and matching..."):
 
-        # Create or connect to Deep Lake vector store
-        vs = VectorStore(
-            path="hub://your-username/resume-matcher",  # Replace with your hub path
-            embedding_function=get_embedding
+        embedding = get_langchain_embeddings()
+
+        # Read resume texts
+        resumes = []
+        resume_ids = []
+        for file in resume_files:
+            text = parse_file(file)
+            resumes.append(text)
+            resume_ids.append(file.name)
+
+        # Create or load Deeplake vectorstore
+        vs = DeeplakeVectorStore.from_texts(
+            texts=resumes,
+            embedding=embedding,
+            dataset_path="hub://kentasuzue/resume-matcher",  # replace with your path
+            ids=resume_ids,
+            overwrite=True  # overwrite dataset each run; remove if you want to append
         )
 
-        # Add resumes to vector store
-        for file in resume_files:
-            resume_text = parse_file(file)
-            vs.add(texts=[resume_text], ids=[file.name])
+        # Search top matches for job description
+        results = vs.similarity_search_with_score(job_text, k=min(10, len(resume_files)))
 
-        # Embed job description
-        job_embedding = get_embedding(job_text)
-
-        # Search similar resumes
-        search_results = vs.search(query_vector=job_embedding, k=min(10, len(resume_files)))
-
-        # Collect top results with summaries
         candidates = []
-        for match in search_results["matches"]:
-            resume_text = match["text"]
-            score = match["score"]
-            name = match["id"]
-            summary = generate_summary_with_gpt(job_text, resume_text)
-
+        for doc, score in results:
+            summary = generate_summary_with_gpt(job_text, doc.page_content)
             candidates.append({
-                "name": name,
+                "name": doc.metadata.get("id", "unknown"),
                 "similarity": score,
                 "summary": summary
             })
