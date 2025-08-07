@@ -1,6 +1,7 @@
 import streamlit as st
 from langchain_deeplake.vectorstores import DeeplakeVectorStore
 from langchain_openai import OpenAIEmbeddings
+from langchain_core.documents import Document
 import docx
 import numpy as np
 import openai
@@ -76,7 +77,7 @@ if job_text and resume_files:
         resume_ids = []
         for file in resume_files:
             text = parse_file(file)
-            resumes.append(text)
+            resumes.append(Document(page_content=text, metadata={"id": file.name}))
             resume_ids.append(file.name)
 
         # Create or load Deeplake vectorstore
