@@ -69,7 +69,7 @@ resume_files = st.file_uploader("Upload Candidate Resumes", type=["txt", "pdf", 
 if job_text and resume_files:
     with st.spinner("🔄 Processing resumes and matching..."):
 
-        embedding = get_langchain_embeddings()
+        embedding = get_embedding()
 
         # Read resume texts
         resumes = []
