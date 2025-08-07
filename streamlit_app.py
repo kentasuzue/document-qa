@@ -57,9 +57,6 @@ Summary:
 st.title("Job Description and Resume Matcher (GPT-4o-mini + ActiveLoop)")
 st.markdown("Upload a job description and resumes. We'll match and rank candidates by relevance.")
 
-# Let the user upload a file via `st.file_uploader`.
-resume_files = st.file_uploader("Upload Candidate Resumes", type=["txt", "pdf", "docx"], accept_multiple_files=True, key="resumes")
-
 # --- Upload Job Description ---
 job_text = st.text_area("Paste Job Description", height=200)
 job_file = st.file_uploader("Or upload job description file", type=["txt", "pdf", "docx"], key="job")
