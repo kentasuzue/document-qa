@@ -81,7 +81,7 @@ if job_text and resume_files:
 
         # Create or load Deeplake vectorstore
         vs = DeeplakeVectorStore.from_documents(
-            texts=resumes,
+            documents=resumes,
             embedding=embedding,
             dataset_path="hub://kentasuzue/resume-matcher",  # replace with your path
             ids=resume_ids,
