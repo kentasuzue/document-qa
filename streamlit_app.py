@@ -96,7 +96,7 @@ if job_text and resume_files:
         for doc, score in results:
             summary = generate_summary_with_gpt(job_text, doc.page_content)
             candidates.append({
-                "name": resume_ids[idx],
+                "name": doc.metadata.get("id", "Unknown"),
                 "similarity": score,
                 "summary": summary
             })
