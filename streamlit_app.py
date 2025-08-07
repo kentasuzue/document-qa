@@ -66,32 +66,6 @@ job_file = st.file_uploader("Or upload job description file", type=["txt", "pdf"
 if job_file:
     job_text = parse_file(job_file)
 
-if resume_files and job_text:
-
-    # Process the uploaded file and question.
-    document = uploaded_file.read().decode()
-    messages = [
-        {
-            "role": "user",
-            "content": f"Here's a document: {document} \n\n---\n\n {question}",
-        }
-    ]
-
-    # Generate an answer using the OpenAI API.
-    stream = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=messages,
-        stream=True,
-    )
-
-    # Stream the response to the app using `st.write_stream`.
-    st.write_stream(stream)
-# --- INPUT JOB ---
-job_text = st.text_area("Paste Job Description", height=200)
-job_file = st.file_uploader("Or upload job description file", type=["txt", "pdf", "docx"])
-if job_file:
-    job_text = parse_file(job_file)
-
 # --- INPUT RESUMES ---
 resume_files = st.file_uploader("Upload Candidate Resumes", type=["txt", "pdf", "docx"], accept_multiple_files=True)
 
@@ -124,7 +98,7 @@ if job_text and resume_files:
         for doc, score in results:
             summary = generate_summary_with_gpt(job_text, doc.page_content)
             candidates.append({
-                "name": doc.metadata.get("id", "unknown"),
+                "name": resume_ids[idx],
                 "similarity": score,
                 "summary": summary
             })
