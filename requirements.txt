@@ -1,6 +1,6 @@
 PyPDF2
 python-docx
-langchain>=0.0.170
+langchain>=0.0.256
 langchain_deeplake>=0.0.11
 openai>=0.27.0
 streamlit>=1.20
