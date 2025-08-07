@@ -85,7 +85,6 @@ if job_text and resume_files:
             documents=resumes,
             embedding=embedding,
             dataset_path="hub://kentasuzue/resume-matcher",  # replace with your path
-            ids=resume_ids,
             overwrite=True  # overwrite dataset each run; remove if you want to append
         )
 
