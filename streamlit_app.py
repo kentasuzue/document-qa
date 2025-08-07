@@ -1,6 +1,6 @@
 import streamlit as st
 from langchain_deeplake.vectorstores import DeeplakeVectorStore
-from langchain.embeddings import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 import docx
 import numpy as np
 import openai
