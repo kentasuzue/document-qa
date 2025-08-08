@@ -10,7 +10,7 @@ from PyPDF2 import PdfReader
 from sklearn.metrics.pairwise import cosine_similarity
 import tempfile
 
-MAX_RESUMES_SUMMARIZED = 3
+MAX_RESUMES_SUMMARIZED = 10
 
 # Load API keys
 openai.api_key = st.secrets["OPENAI_API_KEY"]
