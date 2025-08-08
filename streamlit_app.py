@@ -74,11 +74,9 @@ if job_text and resume_files:
 
         # Read resume texts
         resumes = []
-        resume_ids = []
         for file in resume_files:
             text = parse_file(file)
             resumes.append(Document(page_content=text, metadata={"id": file.name}))
-            resume_ids.append(file.name)
 
         # Create or load Deeplake vectorstore
         vs = DeeplakeVectorStore.from_documents(
