@@ -5,7 +5,7 @@ langchain_deeplake>=0.0.11
 langchain-openai>=0.0.6
 openai>=0.27.0
 streamlit>=1.20
-scikit-learn
+scikit-learn==1.7.1
 numpy==1.24.4
 spacy==3.7.2
 en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
