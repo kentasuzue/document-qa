@@ -54,7 +54,7 @@ Summary:
     return response.choices[0].message.content.strip()
 
 # --- App Layout ---
-st.title("Job Description and Resume Matcher (GPT-5-nano + ActiveLoop)")
+st.title("Job Description and Resume Matcher (GPT-5-nano)")
 st.markdown("Upload a job description and resumes. We'll match and rank candidates by relevance.")
 
 # --- Upload Job Description ---
