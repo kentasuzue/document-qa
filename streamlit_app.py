@@ -39,17 +39,17 @@ def generate_summary_with_gpt(job_text, resume_text):
 You are a helpful recruiter assistant. Given the job description and the candidate's resume, write a concise 2–3 sentence summary explaining how well the candidate fits the job. Highlight relevant experience and standout skills.
 
 Job Description:
-{job_text[:10000]}
+{job_text}
 
 Resume:
-{resume_text[:10000]}
+{resume_text}
 
 Summary:
 """
     response = openai.chat.completions.create(
         model="gpt-5-mini",
-        messages=[{"role": "user", "content": prompt}],
-        max_completion_tokens=300
+        messages=[{"role": "user", "content": prompt}]
+        # max_completion_tokens=300
     )
     return response.choices[0].message.content.strip()
 
