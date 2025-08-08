@@ -38,11 +38,11 @@ def generate_summary_with_gpt(job_text, resume_text):
     prompt = f"""
 You are a helpful recruiter assistant. Given the job description and the candidate's resume, write a concise 2–3 sentence summary explaining how well the candidate fits the job. Highlight relevant experience and standout skills.
 
-Job Description:
-{job_text[:1500]}
+#Job Description:
+#{job_text[:3000]}
 
-Resume:
-{resume_text[:3000]}
+#Resume:
+#{resume_text[:3000]}
 
 Summary:
 """
@@ -50,7 +50,7 @@ Summary:
         model="gpt-5-mini",
         messages=[{"role": "user", "content": prompt}],
         temperature=0,
-        max_tokens=200
+        max_completion_tokens=300
     )
     return response.choices[0].message.content.strip()
 
