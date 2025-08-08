@@ -70,8 +70,8 @@ Summary:
 """
     response = openai.chat.completions.create(
         model="gpt-5-nano",
-        messages=[{"role": "user", "content": prompt}]
-        # max_completion_tokens=300
+        messages=[{"role": "user", "content": prompt}],
+        verbosity="high"
     )
     return response.choices[0].message.content.strip()
 
