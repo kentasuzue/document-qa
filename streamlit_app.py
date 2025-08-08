@@ -47,7 +47,7 @@ Resume:
 Summary:
 """
     response = openai.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-5-mini",
         messages=[{"role": "user", "content": prompt}],
         temperature=0,
         max_tokens=200
@@ -55,7 +55,7 @@ Summary:
     return response.choices[0].message.content.strip()
 
 # --- App Layout ---
-st.title("Job Description and Resume Matcher (GPT-4o-mini + ActiveLoop)")
+st.title("Job Description and Resume Matcher (GPT-5-mini + ActiveLoop)")
 st.markdown("Upload a job description and resumes. We'll match and rank candidates by relevance.")
 
 # --- Upload Job Description ---
