@@ -55,17 +55,17 @@ Summary:
 
 # --- App Layout ---
 st.title("Job Description and Resume Matcher (GPT-5-nano)")
-st.markdown("Upload a job description and resumes. We'll match and rank candidates by relevance.")
+st.markdown("Provide a job description and candidate resumes. We'll match and rank candidates by relevance.")
 
 # --- Upload Job Description ---
-st.markdown("## 📄 Job Description")
+st.markdown("### 📄 (1) Job Description")
 job_text = st.text_area("Paste Job Description, then type CTRL+ENTER", height=200)
 job_file = st.file_uploader("Or upload job description file", type=["txt", "pdf", "docx"], key="job")
 if job_file:
     job_text = parse_file(job_file)
 
 # --- INPUT RESUMES ---
-st.markdown("## 👥 Candidate Resumes")
+st.markdown("### 👥 (2) Candidate Resumes")
 resume_files = st.file_uploader("Upload Candidate Resumes", type=["txt", "pdf", "docx"], accept_multiple_files=True)
 
 if job_text and resume_files:
