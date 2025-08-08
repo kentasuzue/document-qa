@@ -47,7 +47,7 @@ Resume:
 Summary:
 """
     response = openai.chat.completions.create(
-        model="gpt-5-mini",
+        model="gpt-5-nano",
         messages=[{"role": "user", "content": prompt}]
         # max_completion_tokens=300
     )
