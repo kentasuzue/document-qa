@@ -35,14 +35,25 @@ def parse_file(file):
 def get_embedding():
     return OpenAIEmbeddings(model="text-embedding-3-small")
 
+"""
 def extract_candidate_name(resume_text):
-    """
-    Uses spaCy to extract the first PERSON entity found.
-    """
     doc = nlp(text)
     for ent in doc.ents:
         if ent.label_ == "PERSON":
             return ent.text
+    return "Unknown"
+"""
+
+def extract_candidate_name(resume_text):
+    """
+    Attempts to extract the candidate's name from the resume.
+    Assumes the name is within the first few lines.
+    """
+    lines = resume_text.strip().splitlines()
+    for line in lines[:10]:  # Check the top 10 lines
+        line = line.strip()
+        if line and len(line.split()) <= 5 and any(char.isalpha() for char in line):
+            return line
     return "Unknown"
 
 # Generate GPT summary
