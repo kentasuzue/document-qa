@@ -54,11 +54,11 @@ Summary:
     return response.choices[0].message.content.strip()
 
 # --- App Layout ---
-st.title("Job Description and Resume Matcher (GPT-5-nano)")
+st.title("Job Description and Resume Matcher (using GPT-5-nano!)")
 st.markdown("Provide a job description and candidate resumes. We'll match and rank candidates by relevance.")
 
 # --- Upload Job Description ---
-st.markdown("### 📄 (1) Job Description")
+st.markdown("### 👷 (1) Job Description")
 job_text = st.text_area("Paste Job Description, then type CTRL+ENTER", height=200)
 job_file = st.file_uploader("Or upload job description file", type=["txt", "pdf", "docx"], key="job")
 if job_file:
