@@ -35,14 +35,12 @@ def parse_file(file):
 def get_embedding():
     return OpenAIEmbeddings(model="text-embedding-3-small")
 
-"""
-def extract_candidate_name(resume_text):
-    doc = nlp(text)
-    for ent in doc.ents:
-        if ent.label_ == "PERSON":
-            return ent.text
-    return "Unknown"
-"""
+# def extract_candidate_name(resume_text):
+#     doc = nlp(text)
+#     for ent in doc.ents:
+#         if ent.label_ == "PERSON":
+#             return ent.text
+#     return "Unknown"
 
 def extract_candidate_name(resume_text):
     """
