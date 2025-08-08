@@ -6,7 +6,7 @@ import docx
 import numpy as np
 import openai
 import os
-from PyPDF2 import PdfReader
+from pypdf2 import PdfReader
 from sklearn.metrics.pairwise import cosine_similarity
 import tempfile
 import spacy
