@@ -55,11 +55,13 @@ Summary:
 
 # --- App Layout ---
 st.title("Job Description and Resume Matcher (using GPT-5-nano!)")
-st.markdown(" - (1) Provide a job description.<br>"
-            " - (2) Provide candidate resumes.<br>"
-            " - We'll match and rank candidates by relevance, and provide "
-            "summaries of why each candidate is a great fit for the role!",
-            unsafe_allow_html=True)
+st.markdown("""
+            <ul>
+              <li>(1) Provide a job description.</li>
+              <li>(2) Provide candidate resumes.</li>
+              <li>We'll match and rank candidates by relevance, and provide summaries of why each candidate is a great fit for the role!</li>
+            </ul>
+            """, unsafe_allow_html=True)
 
 
 # --- Upload Job Description ---
