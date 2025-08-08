@@ -10,6 +10,8 @@ from PyPDF2 import PdfReader
 from sklearn.metrics.pairwise import cosine_similarity
 import tempfile
 
+MAX_RESUMES_SUMMARIZED = 3
+
 # Load API keys
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 os.environ["ACTIVELOOP_TOKEN"] = st.secrets["ACTIVELOOP_TOKEN"]
@@ -54,7 +56,8 @@ Summary:
     return response.choices[0].message.content.strip()
 
 # --- App Layout ---
-st.title("Job Description and Resume Matcher (using GPT-5-nano!)")
+st.title("Job Description and Resume Matcher")
+st.markdown("## New and Improved with ChatGPT-5!")
 st.markdown("""
             <ul>
               <li>(1) Provide a job description.</li>
@@ -95,7 +98,7 @@ if job_text and resume_files:
         )
 
         # Search top matches for job description
-        results = vs.similarity_search_with_score(job_text, k=min(10, len(resume_files)))
+        results = vs.similarity_search_with_score(job_text, k=min(MAX_RESUMES_SUMMARIZED, len(resume_files)))
 
         candidates = []
         for doc, score in results:
