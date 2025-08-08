@@ -32,7 +32,7 @@ def parse_file(file):
 # Get OpenAI embedding
 @st.cache_resource(show_spinner=False)
 def get_embedding():
-    return OpenAIEmbeddings(model="text-embedding-3-large")
+    return OpenAIEmbeddings(model="text-embedding-3-small")
 
 # Generate GPT summary
 @st.cache_data(show_spinner=False)
