@@ -9,6 +9,7 @@ import os
 from PyPDF2 import PdfReader
 from sklearn.metrics.pairwise import cosine_similarity
 import tempfile
+import spacy
 
 MAX_RESUMES_SUMMARIZED = 10
 
@@ -33,6 +34,16 @@ def parse_file(file):
 @st.cache_resource(show_spinner=False)
 def get_embedding():
     return OpenAIEmbeddings(model="text-embedding-3-small")
+
+def extract_candidate_name(resume_text):
+    """
+    Uses spaCy to extract the first PERSON entity found.
+    """
+    doc = nlp(text)
+    for ent in doc.ents:
+        if ent.label_ == "PERSON":
+            return ent.text
+    return "Unknown"
 
 # Generate GPT summary
 @st.cache_data(show_spinner=False)
@@ -83,12 +94,19 @@ if job_text and resume_files:
 
         embedding = get_embedding()
 
+        # Load spaCy English model once
+        nlp = spacy.load("en_core_web_sm")
+
         # Read resume texts
         resumes = []
         for file in resume_files:
             text = parse_file(file)
-            resumes.append(Document(page_content=text, metadata={"id": file.name}))
-
+            candidate_name = extract_candidate_name(text)
+            resumes.append(Document(page_content=text, metadata={
+                "id": file.name,
+                "candidate_name": candidate_name
+            }))
+        
         # Create or load Deeplake vectorstore
         vs = DeeplakeVectorStore.from_documents(
             documents=resumes,
@@ -104,7 +122,7 @@ if job_text and resume_files:
         for doc, score in results:
             summary = generate_summary_with_gpt(job_text, doc.page_content)
             candidates.append({
-                "name": doc.metadata.get("id", "Unknown"),
+                "name": doc.metadata.get("candidate_name", doc.metadata.get("id", "Unknown")),
                 "similarity": score,
                 "summary": summary
             })
