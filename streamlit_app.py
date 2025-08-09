@@ -9,7 +9,7 @@ import docx
 import openai
 import os
 from PyPDF2 import PdfReader
-# import tempfile
+import tempfile
 import spacy
 from deeplake import delete
 
