@@ -163,7 +163,7 @@ st.markdown("Or Paste in Resumes (one at a time)")
 
 # Dynamically keyed input box
 resume_input = st.text_area(
-    "Paste resume here",
+    "Paste resume here then click '➕ Add Resume' ",
     height=250,
     key=st.session_state.resume_text_key,
 )
