@@ -8,7 +8,6 @@ import openai
 import os
 from PyPDF2 import PdfReader
 import tempfile
-import spacy
 
 MAX_RESUMES_SUMMARIZED = 10
 
@@ -33,13 +32,6 @@ def parse_file(file):
 @st.cache_resource(show_spinner=False)
 def get_embedding():
     return OpenAIEmbeddings(model="text-embedding-3-small")
-
-# def extract_candidate_name(resume_text):
-#     doc = nlp(text)
-#     for ent in doc.ents:
-#         if ent.label_ == "PERSON":
-#             return ent.text
-#     return "Unknown"
 
 def extract_candidate_name(resume_text):
     """
@@ -101,9 +93,6 @@ if job_text and resume_files:
     with st.spinner("🔄 Processing resumes and matching..."):
 
         embedding = get_embedding()
-
-        # Load spaCy English model once
-        nlp = spacy.load("en_core_web_sm")
 
         # Read resume texts
         resumes = []
