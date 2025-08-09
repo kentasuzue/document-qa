@@ -9,7 +9,7 @@ The resumes are assumed to begin with the candidate's name, which is extracted f
 No two candidates have the same name.  If two candidates do have the same name, then the final summary may recommend two candidates with the same name, necessitating that the name collision be resolved by comparing the original resumes with the ChatGPT-5 generated summaries.
 
 3) Anything else:
-OpenAI data controls enable sharing of the contents of the job description and resumes with OpenAI.
+OpenAI data controls are set to enable sharing of the contents of the job description and resumes with OpenAI.
 Confidential information such as social security numbers should not be entered.
 MAX_RESUMES_SUMMARIZED can be changed from 10 to change how many candidate summaries are shown.
 On occasion Streamlit fails to load; then the user should refresh the webpage.
