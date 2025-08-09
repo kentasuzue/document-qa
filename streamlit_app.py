@@ -67,7 +67,7 @@ Summary:
     return response.choices[0].message.content.strip()
 
 # --- App Layout ---
-st.title("Job Description and Resume Matcher")
+st.title("Candidate Recommendation Engine")
 st.markdown("## New and Improved with ChatGPT-5!")
 st.markdown("""
             <ul>
