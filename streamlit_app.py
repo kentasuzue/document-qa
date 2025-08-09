@@ -259,7 +259,7 @@ if st.session_state.get("run_matching", False) and st.session_state.job_text and
 
         candidates = []
         for doc, score in results:
-            summary = generate_summary_with_gpt(job_text, doc.page_content)
+            summary = generate_summary_with_gpt(st.session_state.job_text, doc.page_content)
             candidates.append({
                 "name": doc.metadata.get("candidate_name", doc.metadata.get("id", "Unknown")),
                 "similarity": score,
