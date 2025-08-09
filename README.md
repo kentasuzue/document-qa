@@ -11,5 +11,5 @@ No two candidates have the same name.  If two candidates do have the same name, 
 3) Anything else:
 OpenAI data controls are set to enable sharing of the contents of the job description and resumes with OpenAI.
 Confidential information such as social security numbers should not be entered.
-MAX_RESUMES_SUMMARIZED can be changed from 10 to change how many candidate summaries are shown.
+MAX_RESUMES_SUMMARIZED at the beginning of streamlit_app.py can be changed from 10 to change how many candidate summaries are shown.
 On occasion Streamlit fails to load; then the user should refresh the webpage.
