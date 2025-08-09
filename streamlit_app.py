@@ -32,6 +32,10 @@ os.environ["ACTIVELOOP_TOKEN"] = st.secrets["ACTIVELOOP_TOKEN"]
 # Load spaCy English model once globally
 nlp = spacy.load("en_core_web_sm")
 
+# Commit job description text
+def commit_job_description():
+    st.session_state.job_text = st.session_state.job_description_input
+    
 # File Read Functions
 def parse_file(file):
     if file.name.endswith(".pdf"):
@@ -107,7 +111,6 @@ Summary:
     )
     return response.choices[0].message.content.strip()
 
-
 # Initialize session state for pasted resumes
 if "pasted_resumes" not in st.session_state:
     st.session_state.pasted_resumes = []
@@ -124,10 +127,24 @@ st.markdown("""
             </ul>
             """, unsafe_allow_html=True)
 
-
 # --- Input Job Description ---
+if "job_text" not in st.session_state:
+    st.session_state.job_text = ""
+if "job_description_input" not in st.session_state:
+    st.session_state.job_description_input = ""
+    
 st.markdown("#### 👷 (1) Job Description")
-job_text = st.text_area("Paste Job Description, then type CTRL+ENTER", height=200)
+# The main text area user edits:
+st.text_area(
+    "Paste Job Description, then type CTRL+ENTER or click the button",
+    height=200,
+    key="job_description_input",
+    on_change=commit_job_description  # triggers on Ctrl+Enter
+)
+
+# Button to commit the current input to job_text on mouse click
+if st.button("🖱️ Set Job Description"):
+    commit_job_description()
 
 # --- Input Resumes ---
 st.markdown("#### 👥 (2) Candidate Resumes")
