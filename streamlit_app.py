@@ -155,48 +155,40 @@ resume_files = st.file_uploader("Upload Candidate Resumes", type=["txt", "pdf", 
 if "pasted_resumes" not in st.session_state:
     st.session_state.pasted_resumes = []
 
-if "resume_input" not in st.session_state:
-    st.session_state.resume_input = ""
+if "resume_text_key" not in st.session_state:
+    st.session_state.resume_text_key = "resume_box_0"
 
-if "reset_resume_box" not in st.session_state:
-    st.session_state.reset_resume_box = False
-
+# ---- TEXT INPUT ----
 st.markdown("Or Paste in Resumes (one at a time)")
 
-# --- Handle dynamic key for reset ---
-resume_box_key = "resume_input"
-if st.session_state.reset_resume_box:
-    resume_box_key = f"resume_input_{len(st.session_state.pasted_resumes)}"
-    st.session_state.reset_resume_box = False
-
-# --- Text area ---
-st.text_area(
+# Dynamically keyed input box
+resume_input = st.text_area(
     "Paste resume here",
     height=250,
-    key=resume_box_key,
-)
+    key=st.session_state.resume_text_key,
 
 # --- Add/Clear Buttons ---
 col1, col2 = st.columns([1, 1])
 with col1:
     if st.button("➕ Add Resume"):
-        resume_text = st.session_state.get("resume_input", "").strip()
-        if resume_text:
-            # Use your preferred name extraction here
-            candidate_name = extract_candidate_name_fancy(resume_text)
+        if resume_input.strip():
+            candidate_name = extract_candidate_name_fancy(resume_input)
 
             st.session_state.pasted_resumes.append(
                 Document(
-                    page_content=resume_text,
+                    page_content=resume_input.strip(),
                     metadata={
-                        "id": f"pasted_resume_{len(st.session_state.pasted_resumes) + 1}",
+                        "id": f"pasted_resume_{len(st.session_state.pasted_resumes)+1}",
                         "candidate_name": candidate_name
                     }
                 )
             )
             st.success(f"Resume #{len(st.session_state.pasted_resumes)} added.")
-            st.session_state.resume_input = ""
-            st.session_state.reset_resume_box = True
+
+            # Change text area key to force a reset of input box
+            new_index = len(st.session_state.pasted_resumes)
+            st.session_state.resume_text_key = f"resume_box_{new_index}"
+
             st.rerun()
         else:
             st.warning("Paste a resume before clicking 'Add Resume'.")
@@ -205,8 +197,9 @@ with col2:
     if st.button("🧹 Clear All Pasted Resumes"):
         st.session_state.pasted_resumes = []
         st.success("Cleared all pasted resumes.")
+        st.session_state.resume_text_key = "resume_box_0"
         st.rerun()
-
+        
 # --- Show Pasted Resumes ---
 if st.session_state.pasted_resumes:
     st.markdown("### 📄 Pasted Resumes Added")
