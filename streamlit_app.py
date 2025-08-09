@@ -59,7 +59,7 @@ def extract_candidate_name(resume_text):
     Assumes the name is within the first few lines.
     """
     lines = resume_text.strip().splitlines()
-    for line in lines[:10]:  # Check the top 10 lines
+    for line in lines[:5]:  # Check the top 5 lines
         line = line.strip()
         if line and len(line.split()) <= 5 and any(char.isalpha() for char in line):
             return line
@@ -152,7 +152,7 @@ col1, col2 = st.columns([1, 1])
 with col1:
     if st.button("➕ Add Resume"):
         if single_resume_text.strip():
-            candidate_name = extract_candidate_name_fancy(single_resume_text)
+            candidate_name = extract_candidate_name(single_resume_text)
             st.session_state.pasted_resumes.append(
                 Document(
                     page_content=single_resume_text.strip(),
