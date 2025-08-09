@@ -183,7 +183,6 @@ with col1:
         resume_text = st.session_state.get("resume_input", "").strip()
         if resume_text:
             # Use your preferred name extraction here
-            from your_module import extract_candidate_name_fancy  # if defined externally
             candidate_name = extract_candidate_name_fancy(resume_text)
 
             st.session_state.pasted_resumes.append(
