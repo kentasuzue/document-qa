@@ -110,10 +110,6 @@ Summary:
         verbosity="high"
     )
     return response.choices[0].message.content.strip()
-
-# Initialize session state for pasted resumes
-if "pasted_resumes" not in st.session_state:
-    st.session_state.pasted_resumes = []
     
 # --- App Layout ---
 st.title("Candidate Recommendation Engine")
@@ -155,41 +151,53 @@ if st.session_state.job_text:
 st.markdown("#### 👥 (2) Candidate Resumes")
 resume_files = st.file_uploader("Upload Candidate Resumes", type=["txt", "pdf", "docx"], accept_multiple_files=True)
 
-# --- Resume Pasting Setup ---
+# --- Initialize state ---
 if "pasted_resumes" not in st.session_state:
     st.session_state.pasted_resumes = []
-if "reset_single_resume" not in st.session_state:
-    st.session_state.reset_single_resume = False
+
+if "resume_input" not in st.session_state:
+    st.session_state.resume_input = ""
+
+if "reset_resume_box" not in st.session_state:
+    st.session_state.reset_resume_box = False
 
 st.markdown("Or Paste in Resumes (one at a time)")
-    
-# Create a unique key for the text area that changes when reset is needed
-text_area_key = "single_resume"
-if st.session_state.get("reset_single_resume", False):
-    text_area_key = f"single_resume_{len(st.session_state.pasted_resumes)}"
-    st.session_state.reset_single_resume = False
 
-single_resume_text = st.text_area("Paste resume here", height=250, key=text_area_key)
+# --- Handle dynamic key for reset ---
+resume_box_key = "resume_input"
+if st.session_state.reset_resume_box:
+    resume_box_key = f"resume_input_{len(st.session_state.pasted_resumes)}"
+    st.session_state.reset_resume_box = False
 
-single_resume_text = clean_text(single_resume_text)
+# --- Text area ---
+st.text_area(
+    "Paste resume here",
+    height=250,
+    key=resume_box_key,
+)
 
 # --- Add/Clear Buttons ---
 col1, col2 = st.columns([1, 1])
 with col1:
     if st.button("➕ Add Resume"):
-        if single_resume_text.strip():
-            candidate_name = extract_candidate_name_fancy(single_resume_text)
+        resume_text = st.session_state.get("resume_input", "").strip()
+        if resume_text:
+            # Use your preferred name extraction here
+            from your_module import extract_candidate_name_fancy  # if defined externally
+            candidate_name = extract_candidate_name_fancy(resume_text)
+
             st.session_state.pasted_resumes.append(
                 Document(
-                    page_content=single_resume_text.strip(),
+                    page_content=resume_text,
                     metadata={
-                        "id": f"pasted_resume_{len(st.session_state.pasted_resumes)+1}",
+                        "id": f"pasted_resume_{len(st.session_state.pasted_resumes) + 1}",
                         "candidate_name": candidate_name
                     }
                 )
             )
-            st.session_state.reset_single_resume = True
             st.success(f"Resume #{len(st.session_state.pasted_resumes)} added.")
+            st.session_state.resume_input = ""
+            st.session_state.reset_resume_box = True
             st.rerun()
         else:
             st.warning("Paste a resume before clicking 'Add Resume'.")
