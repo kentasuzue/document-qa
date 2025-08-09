@@ -136,7 +136,7 @@ if "job_description_input" not in st.session_state:
 st.markdown("#### 👷 (1) Job Description")
 # The main text area user edits:
 st.text_area(
-    "Paste Job Description, then type CTRL+ENTER or click the button",
+    "Paste Job Description, then type CTRL+ENTER or click '🖱️ Set Job Description'",
     height=200,
     key="job_description_input",
     on_change=commit_job_description  # triggers on Ctrl+Enter
