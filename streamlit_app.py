@@ -112,7 +112,7 @@ with col1:
                 )
             )
             st.success(f"Resume #{len(st.session_state.pasted_resumes)} added.")
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.warning("Paste a resume before clicking 'Add Resume'.")
 
@@ -120,7 +120,7 @@ with col2:
     if st.button("🧹 Clear All Pasted Resumes"):
         st.session_state.pasted_resumes = []
         st.success("Cleared all pasted resumes.")
-        st.experimental_rerun()
+        st.rerun()
 
 if st.session_state.pasted_resumes:
     st.markdown("### 📄 Pasted Resumes Added")
@@ -130,7 +130,7 @@ if st.session_state.pasted_resumes:
             if st.button(f"❌ Remove Resume #{i+1}", key=f"remove_{i}"):
                 st.session_state.pasted_resumes.pop(i)
                 st.success(f"Removed resume #{i+1}")
-                st.experimental_rerun()
+                st.rerun()
 
 # Process all resumes
 resumes = []
