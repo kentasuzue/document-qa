@@ -11,6 +11,7 @@ import os
 from PyPDF2 import PdfReader
 # import tempfile
 import spacy
+from deeplake import delete
 
 MAX_RESUMES_SUMMARIZED = 10
 
