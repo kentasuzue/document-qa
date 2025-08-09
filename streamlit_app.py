@@ -1,3 +1,5 @@
+Copyright (C) 2025 Kenta Suzue
+
 import streamlit as st
 from langchain_deeplake.vectorstores import DeeplakeVectorStore
 from langchain_openai import OpenAIEmbeddings
