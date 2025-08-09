@@ -208,11 +208,20 @@ if resume_files:
 if st.session_state.pasted_resumes:
     resumes.extend(st.session_state.pasted_resumes)
 
+# --- Matching Trigger ---
+if "run_matching" not in st.session_state:
+    st.session_state.run_matching = False
+
 if job_text and resumes:
+    if st.button("🧠 Match Resumes to Job Description"):
+        st.session_state.run_matching = True
+        st.rerun()
+        
+# --- Resume Matching ---
+if st.session_state.get("run_matching", False) and job_text and resumes:
     with st.spinner("🔄 Processing resumes and matching..."):
-
         embedding = get_embedding()
-
+        
         # Create or load Deeplake vectorstore
         vs = DeeplakeVectorStore.from_documents(
             documents=resumes,
