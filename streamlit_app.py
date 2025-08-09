@@ -215,7 +215,7 @@ if "run_matching" not in st.session_state:
 
 if job_text and resumes:
     st.markdown("#### 🧠 (3) Match Resumes to Job Description")
-    if st.button("Click to Match Resumes to Job Description"):
+    if st.button("🖱️ Click to Match Resumes to Job Description"):
         st.session_state.run_matching = True
         st.rerun()
         
