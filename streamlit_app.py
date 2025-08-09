@@ -146,6 +146,11 @@ st.text_area(
 if st.button("🖱️ Set Job Description"):
     commit_job_description()
 
+# Show the confirmed job_text
+if st.session_state.job_text:
+    st.markdown("### 📋 Confirmed Job Description:")
+    st.write(st.session_state.job_text)
+    
 # --- Input Resumes ---
 st.markdown("#### 👥 (2) Candidate Resumes")
 resume_files = st.file_uploader("Upload Candidate Resumes", type=["txt", "pdf", "docx"], accept_multiple_files=True)
