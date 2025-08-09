@@ -152,7 +152,7 @@ col1, col2 = st.columns([1, 1])
 with col1:
     if st.button("➕ Add Resume"):
         if single_resume_text.strip():
-            candidate_name = extract_candidate_name(single_resume_text)
+            candidate_name = extract_candidate_name_fancy(single_resume_text)
             st.session_state.pasted_resumes.append(
                 Document(
                     page_content=single_resume_text.strip(),
