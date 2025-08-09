@@ -21,7 +21,7 @@ if "dataset_deleted" not in st.session_state:
     try:
         delete(DATASET_PATH)
         st.session_state.dataset_deleted = True
-        st.info("✅ Vector store cleared.")
+        # st.info("✅ Vector store cleared.")
     except Exception as e:
         st.warning(f"Warning: Could not delete dataset: {e}")
 
