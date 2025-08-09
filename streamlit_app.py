@@ -123,7 +123,7 @@ if pasted_resumes_text.strip():
             "candidate_name": candidate_name
         }))
 
-if job_text and resume_files:
+if job_text and resumes:
     with st.spinner("🔄 Processing resumes and matching..."):
 
         embedding = get_embedding()
