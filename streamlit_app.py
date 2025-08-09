@@ -101,6 +101,12 @@ st.markdown("#### 👥 (2) Candidate Resumes")
 resume_files = st.file_uploader("Upload Candidate Resumes", type=["txt", "pdf", "docx"], accept_multiple_files=True)
 
 st.markdown("Or Paste in Resumes (one at a time)")
+
+if "pasted_resumes" not in st.session_state:
+    st.session_state.pasted_resumes = []
+if "single_resume" not in st.session_state:
+    st.session_state.single_resume = ""
+    
 single_resume_text = st.text_area("Paste resume here", height=250, key="single_resume")
 single_resume_text = clean_text(single_resume_text)
 
@@ -118,11 +124,11 @@ with col1:
                     }
                 )
             )
+            st.session_state.single_resume = ""  # Clear text area after adding
             st.success(f"Resume #{len(st.session_state.pasted_resumes)} added.")
             st.rerun()
         else:
             st.warning("Paste a resume before clicking 'Add Resume'.")
-
 with col2:
     if st.button("🧹 Clear All Pasted Resumes"):
         st.session_state.pasted_resumes = []
