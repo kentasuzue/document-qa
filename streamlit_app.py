@@ -16,6 +16,12 @@ from deeplake import delete
 MAX_RESUMES_SUMMARIZED = 10
 DATASET_PATH = "hub://kentasuzue/resume-matcher"
 
+# clear dataset
+try:
+    delete(DATASET_PATH)
+except Exception as e:
+    st.warning(f"Warning: Could not delete existing dataset: {e}")
+
 # Load API keys
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 os.environ["ACTIVELOOP_TOKEN"] = st.secrets["ACTIVELOOP_TOKEN"]
@@ -211,11 +217,6 @@ if job_text and resumes:
             dataset_path=DATASET_PATH,  # replace with your path
             overwrite=True  # overwrite dataset each run; remove if you want to append
         )
-
-        try:
-            delete(DATASET_PATH)
-        except Exception as e:
-            st.warning(f"Warning: Could not delete existing dataset: {e}")
 
         # Search top matches for job description
         results = vs.similarity_search_with_score(job_text, k=min(MAX_RESUMES_SUMMARIZED, len(resumes)), distance_metric='cos')
