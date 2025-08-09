@@ -36,6 +36,12 @@ def parse_file(file):
 def get_embedding():
     return OpenAIEmbeddings(model="text-embedding-3-large")
 
+def clean_text(text):
+    """Remove non-text characters and ensure UTF-8 compliance."""
+    if isinstance(text, bytes):
+        text = text.decode("utf-8", errors="ignore")
+    return ''.join(char for char in text if char.isprintable())
+    
 def extract_candidate_name(resume_text):
     """
     Attempts to extract the candidate's name from the resume.
@@ -96,6 +102,7 @@ resume_files = st.file_uploader("Upload Candidate Resumes", type=["txt", "pdf", 
 
 st.markdown("Or Paste in Resumes (one at a time)")
 single_resume_text = st.text_area("Paste resume here", height=250, key="single_resume")
+single_resume_text = clean_text(single_resume_text)
 
 col1, col2 = st.columns([1, 1])
 with col1:
