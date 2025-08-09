@@ -255,7 +255,7 @@ if st.session_state.get("run_matching", False) and st.session_state.job_text and
         )
 
         # Search top matches for job description
-        results = vs.similarity_search_with_score(job_text, k=min(MAX_RESUMES_SUMMARIZED, len(resumes)), distance_metric='cos')
+        results = vs.similarity_search_with_score(st.session_state.job_text, k=min(MAX_RESUMES_SUMMARIZED, len(resumes)), distance_metric='cos')
 
         candidates = []
         for doc, score in results:
