@@ -88,6 +88,40 @@ job_text = st.text_area("Paste Job Description, then type CTRL+ENTER", height=20
 st.markdown("#### 👥 (2) Candidate Resumes")
 resume_files = st.file_uploader("Upload Candidate Resumes", type=["txt", "pdf", "docx"], accept_multiple_files=True)
 
+st.markdown("Or paste resumes below. Separate each resume by pressing CTRL+ENTER twice (i.e., blank line between resumes):")
+pasted_resumes_text = st.text_area(
+    "Paste resumes here...",
+    height=300,
+    placeholder="Paste multiple resumes here. Use CTRL+ENTER twice to indicate the end of one resume and the start of another.",
+    key="pasted_resumes"
+)
+
+# Process all resumes
+resumes = []
+
+# Load spaCy English model once
+nlp = spacy.load("en_core_web_sm")
+
+# From uploaded files
+if resume_files:
+    for file in resume_files:
+        text = parse_file(file)
+        candidate_name = extract_candidate_name(text)
+        resumes.append(Document(page_content=text, metadata={
+            "id": file.name,
+            "candidate_name": candidate_name
+        }))
+
+# From pasted text area
+if pasted_resumes_text.strip():
+    pasted_chunks = [r.strip() for r in pasted_resumes_text.strip().split("\n\n") if r.strip()]
+    for i, resume_text in enumerate(pasted_chunks):
+        candidate_name = extract_candidate_name(resume_text)
+        resumes.append(Document(page_content=resume_text, metadata={
+            "id": f"pasted_resume_{i+1}",
+            "candidate_name": candidate_name
+        }))
+
 if job_text and resume_files:
     with st.spinner("🔄 Processing resumes and matching..."):
 
