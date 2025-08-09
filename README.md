@@ -9,4 +9,5 @@ The resumes are assumed to begin with the candidate's name, which is extracted f
 
 4) Anything else:
 OpenAI data controls enable sharing of the contents of the job description and resumes with OpenAI.
-Confidential information such as social security numbers should not be entered.  
+Confidential information such as social security numbers should not be entered.
+MAX_RESUMES_SUMMARIZED can be changed from 10 to change how many candidate summaries are shown.
