@@ -5,11 +5,12 @@ from langchain_deeplake.vectorstores import DeeplakeVectorStore
 from langchain_openai import OpenAIEmbeddings
 from langchain_core.documents import Document
 import docx
-import numpy as np
+# import numpy as np
 import openai
 import os
 from PyPDF2 import PdfReader
-import tempfile
+# import tempfile
+import spacy
 
 MAX_RESUMES_SUMMARIZED = 10
 
