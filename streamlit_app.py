@@ -119,6 +119,7 @@ st.markdown("""
             <ul>
               <li>(1) Provide a job description.</li>
               <li>(2) Provide candidate resumes.</li>
+              <li>(3) Click to match resumes to the job description.</li>
               <li>We'll match and rank candidates by relevance, and provide summaries of why each candidate is a great fit for the role!</li>
             </ul>
             """, unsafe_allow_html=True)
