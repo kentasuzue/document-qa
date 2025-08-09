@@ -69,6 +69,11 @@ Summary:
     )
     return response.choices[0].message.content.strip()
 
+
+# Initialize session state for pasted resumes
+if "pasted_resumes" not in st.session_state:
+    st.session_state.pasted_resumes = []
+    
 # --- App Layout ---
 st.title("Candidate Recommendation Engine")
 st.markdown("## New and Improved with ChatGPT-5!")
@@ -89,13 +94,43 @@ job_text = st.text_area("Paste Job Description, then type CTRL+ENTER", height=20
 st.markdown("#### 👥 (2) Candidate Resumes")
 resume_files = st.file_uploader("Upload Candidate Resumes", type=["txt", "pdf", "docx"], accept_multiple_files=True)
 
-st.markdown("Or paste resumes below. Separate each resume by pressing CTRL+ENTER twice (i.e., blank line between resumes):")
-pasted_resumes_text = st.text_area(
-    "Paste resumes here...",
-    height=300,
-    placeholder="Paste multiple resumes here. Use CTRL+ENTER twice to indicate the end of one resume and the start of another.",
-    key="pasted_resumes"
-)
+st.markdown("Or Paste in Resumes (one at a time)")
+single_resume_text = st.text_area("Paste resume here", height=250, key="single_resume")
+
+col1, col2 = st.columns([1, 1])
+with col1:
+    if st.button("➕ Add Resume"):
+        if single_resume_text.strip():
+            candidate_name = extract_candidate_name(single_resume_text)
+            st.session_state.pasted_resumes.append(
+                Document(
+                    page_content=single_resume_text.strip(),
+                    metadata={
+                        "id": f"pasted_resume_{len(st.session_state.pasted_resumes)+1}",
+                        "candidate_name": candidate_name
+                    }
+                )
+            )
+            st.success(f"Resume #{len(st.session_state.pasted_resumes)} added.")
+            st.experimental_rerun()
+        else:
+            st.warning("Paste a resume before clicking 'Add Resume'.")
+
+with col2:
+    if st.button("🧹 Clear All Pasted Resumes"):
+        st.session_state.pasted_resumes = []
+        st.success("Cleared all pasted resumes.")
+        st.experimental_rerun()
+
+if st.session_state.pasted_resumes:
+    st.markdown("### 📄 Pasted Resumes Added")
+    for i, resume_doc in enumerate(st.session_state.pasted_resumes):
+        with st.expander(f"Resume #{i+1}: {resume_doc.metadata.get('candidate_name', 'Unknown')}"):
+            st.text_area("Resume Text", resume_doc.page_content, height=200, key=f"resume_view_{i}")
+            if st.button(f"❌ Remove Resume #{i+1}", key=f"remove_{i}"):
+                st.session_state.pasted_resumes.pop(i)
+                st.success(f"Removed resume #{i+1}")
+                st.experimental_rerun()
 
 # Process all resumes
 resumes = []
@@ -122,6 +157,10 @@ if pasted_resumes_text.strip():
             "id": f"pasted_resume_{i+1}",
             "candidate_name": candidate_name
         }))
+
+# Add pasted resumes from session state
+if st.session_state.pasted_resumes:
+    resumes.extend(st.session_state.pasted_resumes)
 
 if job_text and resumes:
     with st.spinner("🔄 Processing resumes and matching..."):
