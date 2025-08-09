@@ -1,6 +1,6 @@
 1) Approach:
 The architecture is based on Streamlit using Python, OpenAI's ChatGPT, and ActiveLoop.
-At https://share.streamlit.io/ this app's settings have the secrets "OPENAI_API_KEY" and "ACTIVELOOP_TOKEN".
+At https://share.streamlit.io/ this app's settings have the secrets "OPENAI_API_KEY" and "ACTIVELOOP_TOKEN".  Each 
 ChatGPT-5 is used, because it's cool!  **The DeeplakeVectorStore method similarity_search_with_score specifies that distance_metric is 'cos' to override the default of 'L2'.  Specifying 'cos' as distance_metric make the app comply with the assignment's instructions to "Compute cosine similarity between the job and each resume".**
 
 
