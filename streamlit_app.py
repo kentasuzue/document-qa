@@ -143,7 +143,7 @@ if st.session_state.pasted_resumes:
 resumes = []
 
 # Load spaCy English model once
-nlp = spacy.load("en_core_web_sm")
+# nlp = spacy.load("en_core_web_sm")
 
 # From uploaded files
 if resume_files:
@@ -164,16 +164,6 @@ if job_text and resumes:
 
         embedding = get_embedding()
 
-        # Read resume texts
-        resumes = []
-        for file in resume_files:
-            text = parse_file(file)
-            candidate_name = extract_candidate_name(text)
-            resumes.append(Document(page_content=text, metadata={
-                "id": file.name,
-                "candidate_name": candidate_name
-            }))
-        
         # Create or load Deeplake vectorstore
         vs = DeeplakeVectorStore.from_documents(
             documents=resumes,
