@@ -78,14 +78,11 @@ st.markdown("""
             """, unsafe_allow_html=True)
 
 
-# --- Upload Job Description ---
+# --- Input Job Description ---
 st.markdown("#### 👷 (1) Job Description")
 job_text = st.text_area("Paste Job Description, then type CTRL+ENTER", height=200)
-job_file = st.file_uploader("Or upload job description file", type=["txt", "pdf", "docx"], key="job")
-if job_file:
-    job_text = parse_file(job_file)
 
-# --- INPUT RESUMES ---
+# --- Input Resumes ---
 st.markdown("#### 👥 (2) Candidate Resumes")
 resume_files = st.file_uploader("Upload Candidate Resumes", type=["txt", "pdf", "docx"], accept_multiple_files=True)
 
