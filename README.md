@@ -1,19 +1,12 @@
-# 📄 Document question answering template
+1) Approach:
+The architecture is based on Streamlit using Python, OpenAI's ChatGPT, and ActiveLoop.
+At https://share.streamlit.io/ this app's settings have the secrets "OPENAI_API_KEY" and "ACTIVELOOP_TOKEN".
+ChatGPT-5 is used, because it's cool!
 
-A simple Streamlit app that answers questions about an uploaded document via OpenAI's GPT-3.5.
+2) Assumptions:
+Job description and resumes are assumed to be in English.
+The resumes are assumed to begin with the candidate's name, which is extracted from the beginning of each resume.   
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://document-question-answering-template.streamlit.app/)
-
-### How to run it on your own machine
-
-1. Install the requirements
-
-   ```
-   $ pip install -r requirements.txt
-   ```
-
-2. Run the app
-
-   ```
-   $ streamlit run streamlit_app.py
-   ```
+3) Anything else:
+OpenAI data controls enable sharing of the contents of the job description and resumes with OpenAI.
+Confidential information such as social security numbers should not be entered.  
