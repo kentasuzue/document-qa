@@ -1,7 +1,7 @@
 1) Approach:
 The architecture is based on Streamlit using Python, OpenAI's ChatGPT, and ActiveLoop.
 At https://share.streamlit.io/ this app's settings have the secrets "OPENAI_API_KEY" and "ACTIVELOOP_TOKEN".  The job description and each resume are converted to the embeddings in "text-embedding-3-large".  **The DeeplakeVectorStore method similarity_search_with_score specifies that distance_metric is 'cos' to override the default of 'L2'.  Specifying 'cos' as distance_metric make the app comply with the assignment's instructions to "Compute cosine similarity between the job and each resume".**
-ChatGPT-5 is used, because it's cool!  
+ChatGPT-5 is used to summarize each resume highly resume with verbosity of "high" because it's cool!  
 
 3) Assumptions:
 Job description and resumes are assumed to be in English.
