@@ -100,16 +100,23 @@ job_text = st.text_area("Paste Job Description, then type CTRL+ENTER", height=20
 st.markdown("#### 👥 (2) Candidate Resumes")
 resume_files = st.file_uploader("Upload Candidate Resumes", type=["txt", "pdf", "docx"], accept_multiple_files=True)
 
-st.markdown("Or Paste in Resumes (one at a time)")
-
+# --- Resume Pasting Setup ---
 if "pasted_resumes" not in st.session_state:
     st.session_state.pasted_resumes = []
-if "single_resume" not in st.session_state:
-    st.session_state.single_resume = ""
+if "reset_single_resume" not in st.session_state:
+    st.session_state.reset_single_resume = False
+
+st.markdown("Or Paste in Resumes (one at a time)")
     
-single_resume_text = st.text_area("Paste resume here", height=250, key="single_resume")
+if st.session_state.reset_single_resume:
+    single_resume_text = st.text_area("Paste resume here", height=250, key="single_resume", value="")
+    st.session_state.reset_single_resume = False
+else:
+    single_resume_text = st.text_area("Paste resume here", height=250, key="single_resume")
+
 single_resume_text = clean_text(single_resume_text)
 
+# --- Add/Clear Buttons ---
 col1, col2 = st.columns([1, 1])
 with col1:
     if st.button("➕ Add Resume"):
@@ -124,17 +131,19 @@ with col1:
                     }
                 )
             )
-            st.session_state.single_resume = ""  # Clear text area after adding
+            st.session_state.reset_single_resume = True
             st.success(f"Resume #{len(st.session_state.pasted_resumes)} added.")
             st.rerun()
         else:
             st.warning("Paste a resume before clicking 'Add Resume'.")
+
 with col2:
     if st.button("🧹 Clear All Pasted Resumes"):
         st.session_state.pasted_resumes = []
         st.success("Cleared all pasted resumes.")
         st.rerun()
 
+# --- Show Pasted Resumes ---
 if st.session_state.pasted_resumes:
     st.markdown("### 📄 Pasted Resumes Added")
     for i, resume_doc in enumerate(st.session_state.pasted_resumes):
