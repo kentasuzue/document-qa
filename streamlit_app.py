@@ -17,10 +17,13 @@ MAX_RESUMES_SUMMARIZED = 10
 DATASET_PATH = "hub://kentasuzue/resume-matcher"
 
 # clear dataset
-try:
-    delete(DATASET_PATH)
-except Exception as e:
-    st.warning(f"Warning: Could not delete existing dataset: {e}")
+if "dataset_deleted" not in st.session_state:
+    try:
+        delete(DATASET_PATH)
+        st.session_state.dataset_deleted = True
+        st.info("✅ Vector store cleared.")
+    except Exception as e:
+        st.warning(f"Warning: Could not delete dataset: {e}")
 
 # Load API keys
 openai.api_key = st.secrets["OPENAI_API_KEY"]
