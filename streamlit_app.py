@@ -108,11 +108,13 @@ if "reset_single_resume" not in st.session_state:
 
 st.markdown("Or Paste in Resumes (one at a time)")
     
-if st.session_state.reset_single_resume:
-    single_resume_text = st.text_area("Paste resume here", height=250, key="single_resume", value="")
+# Create a unique key for the text area that changes when reset is needed
+text_area_key = "single_resume"
+if st.session_state.get("reset_single_resume", False):
+    text_area_key = f"single_resume_{len(st.session_state.pasted_resumes)}"
     st.session_state.reset_single_resume = False
-else:
-    single_resume_text = st.text_area("Paste resume here", height=250, key="single_resume")
+
+single_resume_text = st.text_area("Paste resume here", height=250, key=text_area_key)
 
 single_resume_text = clean_text(single_resume_text)
 
