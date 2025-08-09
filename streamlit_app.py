@@ -242,7 +242,7 @@ if st.session_state.job_text and resumes:
         st.rerun()
         
 # --- Resume Matching ---
-if st.session_state.get("run_matching", False) and job_text and resumes:
+if st.session_state.get("run_matching", False) and st.session_state.job_text and resumes:
     with st.spinner("🔄 Processing resumes and matching..."):
         embedding = get_embedding()
         
