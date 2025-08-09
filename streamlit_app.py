@@ -18,6 +18,9 @@ MAX_RESUMES_SUMMARIZED = 10
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 os.environ["ACTIVELOOP_TOKEN"] = st.secrets["ACTIVELOOP_TOKEN"]
 
+# Load spaCy English model once globally
+nlp = spacy.load("en_core_web_sm")
+
 # File Read Functions
 def parse_file(file):
     if file.name.endswith(".pdf"):
@@ -49,6 +52,24 @@ def extract_candidate_name(resume_text):
     """
     lines = resume_text.strip().splitlines()
     for line in lines[:10]:  # Check the top 10 lines
+        line = line.strip()
+        if line and len(line.split()) <= 5 and any(char.isalpha() for char in line):
+            return line
+    return "Unknown"
+
+def extract_candidate_name_fancy(resume_text):
+    """
+    Attempts to extract the candidate's name from the resume using spaCy NER.
+    If none found, fallback to heuristic.
+    """
+    lines = resume_text.strip().splitlines()
+    first_lines_text = "\n".join(lines[:10])
+    doc = nlp(first_lines_text)
+    for ent in doc.ents:
+        if ent.label_ == "PERSON":
+            return ent.text
+    # fallback heuristic: pick first short line with letters
+    for line in lines[:10]:
         line = line.strip()
         if line and len(line.split()) <= 5 and any(char.isalpha() for char in line):
             return line
@@ -123,7 +144,7 @@ col1, col2 = st.columns([1, 1])
 with col1:
     if st.button("➕ Add Resume"):
         if single_resume_text.strip():
-            candidate_name = extract_candidate_name(single_resume_text)
+            candidate_name = extract_candidate_name_fancy(single_resume_text)
             st.session_state.pasted_resumes.append(
                 Document(
                     page_content=single_resume_text.strip(),
