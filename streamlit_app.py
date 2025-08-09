@@ -31,7 +31,7 @@ def parse_file(file):
 # Get OpenAI embedding
 @st.cache_resource(show_spinner=False)
 def get_embedding():
-    return OpenAIEmbeddings(model="text-embedding-3-small")
+    return OpenAIEmbeddings(model="text-embedding-3-large")
 
 def extract_candidate_name(resume_text):
     """
