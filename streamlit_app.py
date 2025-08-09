@@ -166,6 +166,7 @@ resume_input = st.text_area(
     "Paste resume here",
     height=250,
     key=st.session_state.resume_text_key,
+)
 
 # --- Add/Clear Buttons ---
 col1, col2 = st.columns([1, 1])
